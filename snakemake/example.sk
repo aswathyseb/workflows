@@ -1,0 +1,112 @@
+
+configfile: "params.yaml"
+
+REF = config.get('REF') or "refs/genome.fa"
+IDX= "refs/idx/genome.fa"
+IDX_FILE = "refs/idx/genome.fa.bwt"
+R1 = "data/A1_R1.fq"
+R2 = "data/A1_R2.fq"
+
+
+
+SAMPLES = config["samples"]
+
+
+
+def get_bwa_map_input_fastqs(wildcards):
+    return config["samples"][wildcards.sample]
+
+rule bwa_map:
+    input:
+        "refs/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        "mapped_reads/{sample}.bam"
+    threads: 8
+    shell:
+        "bwa mem -t {threads} {input} | samtools view -Sb - > {output}"
+
+rule check:
+    input:
+        read1 = R1,
+        read2 = R2,
+        ref = REF,
+        sample = config["samples"]["S1"]
+        #get_bwa_map_input_fastqs
+    shell:
+        "echo {input.read1} {input.read2} {input.sample}  {input.ref}"
+        "echo **** {input.sample}"
+
+
+rule index:
+    input:
+        REF
+    output:
+        IDX_FILE
+    shell:
+        "bwa index -p {IDX} {input} >{output}"
+
+
+rule align:
+    input:
+        IDX,
+        "data/{sample}_R1.fq",
+        "data/{sample}_R2.fq"
+    output:
+         "bam/{sample}.bam"
+    shell:
+         "bwa mem {input} |samtools sort >{output}"
+
+rule bam_index:
+     input:
+          "bam/{sample}.bam"
+     output:
+          "bam/{sample}.bam.bai"
+     shell:
+           "samtools index {input}"
+
+rule post_align:
+     input:
+           "bam/{sample}.bam"
+     output:
+            "bam/{sample}.txt"
+     shell:
+            "(echo \"{wildcards.sample} mapping stats\" & samtools flagstat {input}) >{output}"
+
+
+rule call_multi_samples_variants:
+      input:
+         genome = REF,
+         bam = expand("bam/{sample}.bam", sample = config["samples"]),
+         bai = expand("bam/{sample}.bam.bai", sample = config["samples"])
+      output:
+          "vcf/variants.vcf.gz"
+      params:
+           pflags = config["vcf"]["pileup_flags"],
+           cflags = config["vcf"]["call_flags"]
+      shell:
+            "bcftools mpileup {params.pflags} -O u -f {input.genome} {input.bam} | "
+            "bcftools call {params.cflags} -mv -O u | "
+            "bcftools norm -f {input.genome} -d all -O u | bcftools sort -O z > {output}"
+
+
+rule call_variants:
+      input:
+         genome = REF,
+         bam = "bam/{sample}.bam",
+         bai = "bam/{sample}.bam.bai"
+      output:
+          "vcf/{sample}.vcf.gz"
+      params:
+           pflags = config["vcf"]["pileup_flags"],
+           cflags = config["vcf"]["call_flags"]
+      shell:
+            "bcftools mpileup {params.pflags} -O u -f {input.genome} {input.bam} | "
+            "bcftools call {params.cflags} -mv -O u | "
+            "bcftools norm -f {input.genome} -d all -O u | bcftools sort -O z > {output}"
+
+rule all:
+     input:
+         expand("vcf/{sample}.vcf.gz", sample=SAMPLES)
+
+
