@@ -14,5 +14,7 @@ include: "bcftools.smk"
 
 rule all:
     input:
-        VCF_DIR + "/all.vcf.gz"
+        #VCF_DIR + "/all.vcf.gz"
+        expand(VCF_DIR + "/{sample}.vcf.gz", sample= SAMPLES.index),
+        expand(VCF_DIR + "/{sample}.vcf.gz.csi", sample= SAMPLES.index)
 
