@@ -50,9 +50,3 @@ An example sample sheet would look like this:
    2. A samplesheet in comma-separated format with atleast 2 columns with column headers as 'sample,read1,read2'
 
 
-An example sample sheet would be
-
-    sample,read1,read2
-    S1,data/S1_R1.fq,data/S1_R2.fq
-    S2,data/S2_R1.fq,data/S2_R2.fq`
-
