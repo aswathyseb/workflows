@@ -1,0 +1,21 @@
+sample_sheet: samples.txt
+
+# align type can be PE or SE
+align_type: PE
+
+ref:
+  genome: refs/genome.fa
+  ref_dir: refs
+  idx_dir: refs/idx
+
+align:
+  align_dir: bam
+
+vcf:
+  vcf_dir: vcf
+  pileup_flags: -d 100
+  call_flags: --ploidy 2
+  # Call type can be multi-sample or sample-vcf
+  call_type: sample-vcf
+
+NCPU: 4
