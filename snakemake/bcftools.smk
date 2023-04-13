@@ -3,12 +3,14 @@ import pandas as pd
 
 configfile: "config.yaml"
 
-ALIGN_DIR = config.get('align')['align_dir']
-VCF_DIR = config.get('vcf').get('vcf_dir')
-REF = config.get('ref').get('genome')
+ALN_DIR = config.get('aln_dir')
+VCF_DIR = config.get('vcf_dir')
+REF = config.get('genome')
 VCF_CALL = config.get("vcf").get("call_type")
 
-SAMPLES = pd.read_csv(config["sample_sheet"],sep="\t").set_index('sample',drop=False)
+SHEET = config.get('data').get("sample_sheet")
+
+SAMPLES = pd.read_csv(SHEET,sep=",").set_index('sample',drop=False)
 
 if VCF_CALL == "multi-sample":
     rule call_variants:
@@ -26,8 +28,8 @@ if VCF_CALL == "sample-vcf":
 rule call_multi_sample_variants:
     input:
         fa=REF,
-        bam=expand(ALIGN_DIR + "/{sample}.bam",sample=SAMPLES.index),
-        bai=expand(ALIGN_DIR + "/{sample}.bam.bai",sample=SAMPLES.index)
+        bam=expand(ALN_DIR + "/{sample}.bam",sample=SAMPLES.index),
+        bai=expand(ALN_DIR + "/{sample}.bam.bai",sample=SAMPLES.index)
     output:
         VCF_DIR + "/all.vcf.gz"
     params:
@@ -42,8 +44,8 @@ rule call_multi_sample_variants:
 rule call_sample_variants:
     input:
         fa=REF,
-        bam=ALIGN_DIR + "/{sample}.bam",
-        bai=ALIGN_DIR + "/{sample}.bam.bai"
+        bam=ALN_DIR + "/{sample}.bam",
+        bai=ALN_DIR + "/{sample}.bam.bai"
     output:
         VCF_DIR + "/{sample}.vcf.gz"
     params:

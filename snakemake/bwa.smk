@@ -3,18 +3,22 @@ import os
 
 configfile: "config.yaml"
 
-REF_DIR = config.get('ref').get('ref_dir')
-IDX_DIR = config.get('ref').get('idx_dir')
-ALIGN_DIR = config.get('align').get('align_dir')
-VCF_DIR = config.get('vcf').get('vcf_dir')
+REF_DIR = config.get('ref_dir')
+IDX_DIR = config.get('idx_dir')
+ALN_DIR = config.get('aln_dir')
+VCF_DIR = config.get('vcf_dir')
+NCPU = config.get('ncpu')
 
-NCPU = config.get('NCPU')
-
-REF = config.get('ref').get('genome')
+BFLAGS = config.get('aligner').get('aln_flags')
+SFLAGS = config.get('sam').get('sam_flags')
+REF = config.get('genome')
 IDX = f"{IDX_DIR}/{os.path.split(REF)[1]}"
 IDX_FILE = f"{IDX}.bwt"
 
-SAMPLES = pd.read_csv(config["sample_sheet"],sep="\t").set_index('sample',drop=False)
+SHEET = config.get('data').get("sample_sheet")
+LIB = config.get('data').get("library")
+
+SAMPLES = pd.read_csv(SHEET,sep=",").set_index('sample',drop=False)
 
 
 def get_reads_PE(wildcards):
@@ -30,8 +34,8 @@ def get_reads_SE(wildcards):
 rule all_bams:
     input:
         IDX_FILE,
-        expand(ALIGN_DIR + "/{sample}.bam",sample=SAMPLES.index),
-        expand(ALIGN_DIR + "/{sample}.bam.bai",sample=SAMPLES.index)
+        expand(ALN_DIR + "/{sample}.bam",sample=SAMPLES.index),
+        expand(ALN_DIR + "/{sample}.bam.bai",sample=SAMPLES.index)
 
 
 rule index_genome:
@@ -42,36 +46,38 @@ rule index_genome:
     shell:
         "bwa index -p {IDX} {input}"
 
-if config["align_type"] == "SE":
+if LIB == "SE":
     rule align_SE:
         input:
             IDX_FILE,
             reads=get_reads_SE
         output:
-            ALIGN_DIR + "/{sample}.bam"
+            ALN_DIR + "/{sample}.bam"
         threads: NCPU
         params:
             rg=r"@RG\tID:{sample}\tSM:{sample}"
         shell:
-            "bwa mem -t {threads} -R '{params.rg}' {IDX} {input.reads} | samtools sort >{output}"
+            "bwa mem -t {threads} {BFLAGS} -R '{params.rg}' {IDX} {input.reads} | samtools view -h {SFLAGS} |"
+            "samtools sort >{output}"
 
-if config["align_type"] == "PE":
+if LIB == "PE":
     rule align_PE:
         input:
             IDX_FILE,
             reads=get_reads_PE
         output:
-            ALIGN_DIR + "/{sample}.bam"
+            ALN_DIR + "/{sample}.bam"
         threads: NCPU
         params:
             rg=r"@RG\tID:{sample}\tSM:{sample}"
         shell:
-            "bwa mem -t {threads} -R '{params.rg}' {IDX} {input.reads} | samtools sort >{output}"
+            "bwa mem -t {threads} {BFLAGS} -R '{params.rg}' {IDX} {input.reads} | samtools view -h {SFLAGS} |"
+            "samtools sort >{output}"
 
 rule index_bam:
     input:
-        ALIGN_DIR + "/{sample}.bam"
+        ALN_DIR + "/{sample}.bam"
     output:
-        ALIGN_DIR + "/{sample}.bam.bai"
+        ALN_DIR + "/{sample}.bam.bai"
     shell:
         "samtools index {input}"
