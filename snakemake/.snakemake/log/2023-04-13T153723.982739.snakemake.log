@@ -1,0 +1,210 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job                     count    min threads    max threads
+--------------------  -------  -------------  -------------
+align_PE                    3              4              4
+all                         1              1              1
+call_sample_variants        3              1              1
+index_bam                   3              1              1
+index_genome                1              1              1
+index_sample_vcf            3              1              1
+total                      14              1              4
+
+Select jobs to execute...
+
+[Thu Apr 13 15:37:24 2023]
+rule index_genome:
+    input: refs/genome.fa
+    output: refs/idx/genome.fa.bwt
+    jobid: 3
+    reason: Missing output files: refs/idx/genome.fa.bwt
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:24 2023]
+Finished job 3.
+1 of 14 steps (7%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:24 2023]
+rule align_PE:
+    input: refs/idx/genome.fa.bwt, data/S3_R1.fq, data/S3_R2.fq
+    output: bam/S3.bam
+    jobid: 9
+    reason: Missing output files: bam/S3.bam; Input files updated by another job: refs/idx/genome.fa.bwt
+    wildcards: sample=S3
+    threads: 4
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:25 2023]
+Finished job 9.
+2 of 14 steps (14%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:25 2023]
+rule align_PE:
+    input: refs/idx/genome.fa.bwt, data/S2_R1.fq, data/S2_R2.fq
+    output: bam/S2.bam
+    jobid: 6
+    reason: Missing output files: bam/S2.bam; Input files updated by another job: refs/idx/genome.fa.bwt
+    wildcards: sample=S2
+    threads: 4
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:25 2023]
+Finished job 6.
+3 of 14 steps (21%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:25 2023]
+rule align_PE:
+    input: refs/idx/genome.fa.bwt, data/S1_R1.fq, data/S1_R2.fq
+    output: bam/S1.bam
+    jobid: 2
+    reason: Missing output files: bam/S1.bam; Input files updated by another job: refs/idx/genome.fa.bwt
+    wildcards: sample=S1
+    threads: 4
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:25 2023]
+Finished job 2.
+4 of 14 steps (29%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:25 2023]
+rule index_bam:
+    input: bam/S3.bam
+    output: bam/S3.bam.bai
+    jobid: 10
+    reason: Missing output files: bam/S3.bam.bai; Input files updated by another job: bam/S3.bam
+    wildcards: sample=S3
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+
+[Thu Apr 13 15:37:25 2023]
+rule index_bam:
+    input: bam/S2.bam
+    output: bam/S2.bam.bai
+    jobid: 7
+    reason: Missing output files: bam/S2.bam.bai; Input files updated by another job: bam/S2.bam
+    wildcards: sample=S2
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+
+[Thu Apr 13 15:37:25 2023]
+rule index_bam:
+    input: bam/S1.bam
+    output: bam/S1.bam.bai
+    jobid: 4
+    reason: Missing output files: bam/S1.bam.bai; Input files updated by another job: bam/S1.bam
+    wildcards: sample=S1
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:25 2023]
+Finished job 10.
+5 of 14 steps (36%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:25 2023]
+rule call_sample_variants:
+    input: refs/genome.fa, bam/S3.bam, bam/S3.bam.bai
+    output: vcf/S3.vcf.gz
+    jobid: 8
+    reason: Missing output files: vcf/S3.vcf.gz; Input files updated by another job: bam/S3.bam.bai, bam/S3.bam
+    wildcards: sample=S3
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:25 2023]
+Finished job 7.
+6 of 14 steps (43%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:25 2023]
+rule call_sample_variants:
+    input: refs/genome.fa, bam/S2.bam, bam/S2.bam.bai
+    output: vcf/S2.vcf.gz
+    jobid: 5
+    reason: Missing output files: vcf/S2.vcf.gz; Input files updated by another job: bam/S2.bam.bai, bam/S2.bam
+    wildcards: sample=S2
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:26 2023]
+Finished job 4.
+7 of 14 steps (50%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:26 2023]
+rule call_sample_variants:
+    input: refs/genome.fa, bam/S1.bam, bam/S1.bam.bai
+    output: vcf/S1.vcf.gz
+    jobid: 1
+    reason: Missing output files: vcf/S1.vcf.gz; Input files updated by another job: bam/S1.bam, bam/S1.bam.bai
+    wildcards: sample=S1
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:26 2023]
+Finished job 8.
+8 of 14 steps (57%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:26 2023]
+rule index_sample_vcf:
+    input: vcf/S3.vcf.gz
+    output: vcf/S3.vcf.gz.csi
+    jobid: 13
+    reason: Missing output files: vcf/S3.vcf.gz.csi; Input files updated by another job: vcf/S3.vcf.gz
+    wildcards: sample=S3
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:26 2023]
+Finished job 13.
+9 of 14 steps (64%) done
+[Thu Apr 13 15:37:26 2023]
+Finished job 1.
+10 of 14 steps (71%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:26 2023]
+rule index_sample_vcf:
+    input: vcf/S1.vcf.gz
+    output: vcf/S1.vcf.gz.csi
+    jobid: 11
+    reason: Missing output files: vcf/S1.vcf.gz.csi; Input files updated by another job: vcf/S1.vcf.gz
+    wildcards: sample=S1
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:26 2023]
+Finished job 5.
+11 of 14 steps (79%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:26 2023]
+rule index_sample_vcf:
+    input: vcf/S2.vcf.gz
+    output: vcf/S2.vcf.gz.csi
+    jobid: 12
+    reason: Missing output files: vcf/S2.vcf.gz.csi; Input files updated by another job: vcf/S2.vcf.gz
+    wildcards: sample=S2
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:26 2023]
+Finished job 11.
+12 of 14 steps (86%) done
+[Thu Apr 13 15:37:26 2023]
+Finished job 12.
+13 of 14 steps (93%) done
+Select jobs to execute...
+
+[Thu Apr 13 15:37:26 2023]
+localrule all:
+    input: vcf/S1.vcf.gz, vcf/S2.vcf.gz, vcf/S3.vcf.gz, vcf/S1.vcf.gz.csi, vcf/S2.vcf.gz.csi, vcf/S3.vcf.gz.csi
+    jobid: 0
+    reason: Input files updated by another job: vcf/S3.vcf.gz, vcf/S2.vcf.gz.csi, vcf/S1.vcf.gz, vcf/S3.vcf.gz.csi, vcf/S1.vcf.gz.csi, vcf/S2.vcf.gz
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Thu Apr 13 15:37:26 2023]
+Finished job 0.
+14 of 14 steps (100%) done
+Complete log: .snakemake/log/2023-04-13T153723.982739.snakemake.log

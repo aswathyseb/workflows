@@ -1,0 +1,8 @@
+Building DAG of jobs...
+MissingInputException in rule align_PE in file /Users/asebastian/myGit/workflows/snakemake/bwa.smk, line 64:
+Missing input files for rule align_PE:
+    output: bam/Z.bam
+    wildcards: sample=Z
+    affected files:
+        data/Z_R2.fq
+        data/Z_R1.fq

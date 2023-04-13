@@ -1,28 +1,25 @@
-sample_sheet: samples.txt
+data:
+  sample_sheet: samples.csv
+  # Library can be PE or SE
+  library: PE
 
-# align type can be PE or SE
-align_type: PE
+aligner:
+  tool: bwa
+  aln_flags: ""
 
-ref:
-  genome: refs/genome.fa
-  ref_dir: refs
-  idx_dir: refs/idx
-
-align:
-  align_dir: bam
+sam:
+  sam_flags: ""
 
 vcf:
-  vcf_dir: vcf
   pileup_flags: -d 100
   call_flags: --ploidy 2
   # Call type can be multi-sample or sample-vcf
-  call_type: sample-vcf
+  call_type: multi-sample
 
-NCPU: 4
-
-runtime:
-  genome: refs/genome.fa
-  index_dir: refs/idx
-  fastq_dir: data
-  align_dir: bam
-  vcf_dir: vcf
+# Run time parameters
+genome: refs/genome.fa
+ref_dir: refs
+idx_dir: refs/idx
+aln_dir: bam
+vcf_dir: vcf
+ncpu: 4
