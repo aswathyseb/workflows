@@ -8,8 +8,10 @@ This folder contains snakemake variant calling workflow.
 The main workflow is in `variants.smk` file.
 This workflow includes other workflows such as `bwa.smk` and `bcftools.smk`.
 
-bwa.smk : Alignment workflow for both single-end and paired-end reads using bwa-mem program
+bwa.smk : Alignment workflow for both single-end and paired-end reads using bwa-mem program.
+
 bcftools.smk : Variant calling workflow using bcftools.
+
 variant.smk : Master variant calling workflow that combines bwa.smk and bcftools.smk
 
 
