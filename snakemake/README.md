@@ -14,6 +14,30 @@ This workflow includes other workflows such as `bwa.smk` and `bcftools.smk`.
 
 `variant.smk` : Master variant calling workflow that combines bwa.smk and bcftools.smk
 
+### How to run?
+
+Run using 4 processors and parameters specified in config file.
+
+    snakemake -s variants.smk -c 4
+
+To override any of the runtime parameters specified in the config file, for eg: alignment directory
+
+    snakemake -s variants.smk -c 4 --config aln_dir=align
+
+To perform a dry-run
+
+    snakemake -s variants.smk -c 4 --config aln_dir=align -n
+
+### Sample sheet specification
+
+Sample sheet is a comma-separated file with the header sample,read1,read2
+
+An example sample sheet would look like this:
+
+    sample,read1,read2
+    S1,data/S1_R1.fq,data/S1_R2.fq
+    S2,data/S2_R1.fq,data/S2_R2.fq
+
 
 ### Workflow requirements
 
