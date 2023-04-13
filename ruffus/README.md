@@ -7,11 +7,12 @@ This folder contains ruffus variant calling workflow.
 
 The main workflow is in `vcf.py` file.
 
-All the helper functions that the main workflow uses are in helper.py
+All the helper functions that the main workflow uses are in `helper.py`
 
 ### How to run?
 
-    # Runs using 4 processors and parameters specified in config file.
+Run using 4 processors and parameters specified in config file.
+
     python vcf.py --config config.yaml  -j 4
 
 To view all the commandline options
