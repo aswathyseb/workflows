@@ -11,6 +11,8 @@ All the helper functions that the main workflow uses are in `helper.py`
 
 ### How to run?
 
+
+
 Run using 4 processors and parameters specified in config file.
 
       python -s src/sruffus/vcf.py -c 4

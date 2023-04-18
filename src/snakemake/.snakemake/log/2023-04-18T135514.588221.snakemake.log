@@ -1,4 +1,0 @@
-WorkflowError in file /Users/asebastian/myGit/workflows/src/snakemake/bwa.smk, line 4:
-Workflow defines configfile config/config.yaml but it is not present or accessible (full checked path: /Users/asebastian/myGit/workflows/src/snakemake/config/config.yaml).
-  File "/Users/asebastian/myGit/workflows/src/snakemake/variants.smk", line 15, in <module>
-  File "/Users/asebastian/myGit/workflows/src/snakemake/bwa.smk", line 4, in <module>
