@@ -15,31 +15,31 @@ All the helper functions that the main workflow uses are in `helper.py`
 
 Run using 4 processors and parameters specified in config file.
 
-      python -s src/sruffus/vcf.py -c 4
+      python src/sruffus/vcf.py -c 4
 
 To override any of the runtime parameters specified in the config file, for eg: alignment directory
-
-       python src/ruffus/vcf.py -j 4  aln_dir=align
+   
+      python src/ruffus/vcf.py -j 4  aln_dir=align
 
 To create a multi-sample vcf, run the command
 
       python src/ruffus/vcf.py -j 4 vcf_type=multi-sample
    
-To call variants from each sample and create a sample specific vcf, run the command
+To call variants from each sample and create a sample specific vcf, run the command 
 
       python src/ruffus/vcf.py -j 4 vcf_type=sample-vcf
 
 To run with a different config file
 
-    python src/ruffus/vcf.py -j 4 --config new_config.yaml
+      python src/ruffus/vcf.py -j 4 --config new_config.yaml
 
 To view all the commandline options
     
-    python src/ruffus/vcf.py -h
+      python src/ruffus/vcf.py -h
 
 To perform a dry-run
 
-    python src/ruffus/vcf.py -n 
+      python src/ruffus/vcf.py -n 
 
 ### Sample sheet specification
 
