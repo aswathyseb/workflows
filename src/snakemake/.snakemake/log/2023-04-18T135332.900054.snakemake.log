@@ -1,0 +1,110 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job          count    min threads    max threads
+---------  -------  -------------  -------------
+align_PE         3              4              4
+all_bams         1              1              1
+index_bam        3              1              1
+total            7              1              4
+
+Select jobs to execute...
+
+[Tue Apr 18 13:53:33 2023]
+rule align_PE:
+    input: refs/idx/genome.fa.bwt, data/S3_R1.fq, data/S3_R2.fq
+    output: results/bam/S3.bam
+    jobid: 4
+    reason: Missing output files: results/bam/S3.bam
+    wildcards: sample=S3
+    threads: 4
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Tue Apr 18 13:53:33 2023]
+Finished job 4.
+1 of 7 steps (14%) done
+Select jobs to execute...
+
+[Tue Apr 18 13:53:33 2023]
+rule align_PE:
+    input: refs/idx/genome.fa.bwt, data/S1_R1.fq, data/S1_R2.fq
+    output: results/bam/S1.bam
+    jobid: 2
+    reason: Missing output files: results/bam/S1.bam
+    wildcards: sample=S1
+    threads: 4
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Tue Apr 18 13:53:34 2023]
+Finished job 2.
+2 of 7 steps (29%) done
+Select jobs to execute...
+
+[Tue Apr 18 13:53:34 2023]
+rule align_PE:
+    input: refs/idx/genome.fa.bwt, data/S2_R1.fq, data/S2_R2.fq
+    output: results/bam/S2.bam
+    jobid: 3
+    reason: Missing output files: results/bam/S2.bam
+    wildcards: sample=S2
+    threads: 4
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Tue Apr 18 13:53:34 2023]
+Finished job 3.
+3 of 7 steps (43%) done
+Select jobs to execute...
+
+[Tue Apr 18 13:53:34 2023]
+rule index_bam:
+    input: results/bam/S3.bam
+    output: results/bam/S3.bam.bai
+    jobid: 7
+    reason: Missing output files: results/bam/S3.bam.bai; Input files updated by another job: results/bam/S3.bam
+    wildcards: sample=S3
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+
+[Tue Apr 18 13:53:34 2023]
+rule index_bam:
+    input: results/bam/S1.bam
+    output: results/bam/S1.bam.bai
+    jobid: 5
+    reason: Missing output files: results/bam/S1.bam.bai; Input files updated by another job: results/bam/S1.bam
+    wildcards: sample=S1
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+
+[Tue Apr 18 13:53:34 2023]
+rule index_bam:
+    input: results/bam/S2.bam
+    output: results/bam/S2.bam.bai
+    jobid: 6
+    reason: Missing output files: results/bam/S2.bam.bai; Input files updated by another job: results/bam/S2.bam
+    wildcards: sample=S2
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Tue Apr 18 13:53:34 2023]
+Finished job 7.
+4 of 7 steps (57%) done
+[Tue Apr 18 13:53:34 2023]
+Finished job 5.
+5 of 7 steps (71%) done
+[Tue Apr 18 13:53:34 2023]
+Finished job 6.
+6 of 7 steps (86%) done
+Select jobs to execute...
+
+[Tue Apr 18 13:53:34 2023]
+localrule all_bams:
+    input: refs/idx/genome.fa.bwt, results/bam/S1.bam, results/bam/S2.bam, results/bam/S3.bam, results/bam/S1.bam.bai, results/bam/S2.bam.bai, results/bam/S3.bam.bai
+    jobid: 0
+    reason: Input files updated by another job: results/bam/S1.bam.bai, results/bam/S3.bam.bai, results/bam/S2.bam, results/bam/S3.bam, results/bam/S1.bam, results/bam/S2.bam.bai
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Tue Apr 18 13:53:34 2023]
+Finished job 0.
+7 of 7 steps (100%) done
+Complete log: .snakemake/log/2023-04-18T135332.900054.snakemake.log

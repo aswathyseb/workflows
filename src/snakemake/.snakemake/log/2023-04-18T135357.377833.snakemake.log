@@ -1,0 +1,24 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job                           count    min threads    max threads
+--------------------------  -------  -------------  -------------
+call_multi_sample_variants        1              1              1
+total                             1              1              1
+
+Select jobs to execute...
+
+[Tue Apr 18 13:53:57 2023]
+rule call_multi_sample_variants:
+    input: refs/genome.fa, results/bam/S1.bam, results/bam/S2.bam, results/bam/S3.bam, results/bam/S1.bam.bai, results/bam/S2.bam.bai, results/bam/S3.bam.bai
+    output: results/vcf/all.vcf.gz
+    jobid: 0
+    reason: Missing output files: results/vcf/all.vcf.gz
+    resources: tmpdir=/var/folders/4_/gtvdvj5j1yn2hdpc1qdxlv_00000gn/T
+
+[Tue Apr 18 13:53:58 2023]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: .snakemake/log/2023-04-18T135357.377833.snakemake.log
