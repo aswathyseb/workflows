@@ -76,7 +76,6 @@ if args.vcf_type == "sample-vcf":
 @transform(align_reads, formatter(), args.vcf_dir + "/{basename[0]}.vcf.gz")
 def create_sample_vcf(inp, out):
     os.makedirs(args.vcf_dir, exist_ok=True)
-    print("****", inp)
     cmd = f"""
             bcftools mpileup {args.pflags} -O u -f {args.genome} {inp} |
             bcftools call {args.cflags} -mv -O u |
@@ -101,6 +100,7 @@ def index_sample_vcf(inp, out):
 @follows(align_reads)
 @merge(align_reads, args.vcf_dir + "/all.vcf.gz")
 def create_multisample_vcf(inp, out):
+    os.makedirs(args.vcf_dir, exist_ok=True)
     inputs = " ".join(inp)
     cmd = f"""bcftools mpileup {args.pflags} -O u -f {args.genome} {inputs} | 
                bcftools call {args.cflags} -mv -O u | 
