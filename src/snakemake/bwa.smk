@@ -6,8 +6,6 @@ configfile: "config/config.yaml"
 
 IDX_DIR = config.get('idx_dir')
 ALN_DIR = config.get('aln_dir')
-VCF_DIR = config.get('vcf_dir')
-#REF_DIR = config.get('ref_dir')
 NCPU = config.get('ncpu')
 
 BFLAGS = config.get('aligner').get('aln_flags')
